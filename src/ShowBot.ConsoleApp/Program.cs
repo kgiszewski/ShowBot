@@ -1,5 +1,5 @@
 ﻿using System;
-using ShowBot.Core.Components.Speech;
+using ShowBot.Core.Components.Robot;
 using ShowBot.Core.Dependencies;
 using Unity;
 
@@ -13,10 +13,10 @@ namespace ShowBot.ConsoleApp
 
             Registrations.Register(container);
 
-            var voiceBox = container.Resolve<IVoiceBoxComponent>();
+            var robot = container.Resolve<IRobot>();
 
             // Speak a string.  
-            voiceBox.Say("Hi Jackson. Your dad built me, it's nice to meet you.");
+            robot.VoiceBox.Value.Say("Hello! I'm the official Bob & Kevin show intern. It's nice to meet you.");
 
             Console.WriteLine();
             Console.WriteLine("Press any key to exit...");

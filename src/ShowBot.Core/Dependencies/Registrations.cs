@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Speech.Synthesis;
+using ShowBot.Core.Components.Robot;
 using ShowBot.Core.Components.Speech;
 using ShowBot.Core.Config;
 using Unity;
@@ -30,6 +31,8 @@ namespace ShowBot.Core.Dependencies
             container.RegisterType<SpeechSynthesizer>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IVoiceBoxComponent, SpeechSynthesizerVoiceBoxComponent>(new HierarchicalLifetimeManager());
+
+            container.RegisterType<IRobot, Components.Robot.ShowBot>(new HierarchicalLifetimeManager());
         }
     }
 }

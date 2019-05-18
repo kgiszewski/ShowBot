@@ -52,6 +52,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Robot\IRobot.cs" />
+    <Compile Include="Components\Robot\ShowBot.cs" />
     <Compile Include="Components\Speech\IVoiceBoxComponent.cs" />
     <Compile Include="Components\Speech\SpeechSynthesizerVoiceBoxComponent.cs" />
     <Compile Include="Config\AppConfigs.cs" />
