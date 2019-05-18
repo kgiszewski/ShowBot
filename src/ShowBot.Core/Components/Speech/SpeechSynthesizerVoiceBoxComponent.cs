@@ -16,7 +16,14 @@ namespace ShowBot.Core.Components.Speech
 
         public void Say(string input)
         {
-            _speechSynthesizer.Value.Speak(input);
+            Stop();
+
+            _speechSynthesizer.Value.SpeakAsync(new Prompt(input));
+        }
+
+        public void Stop()
+        {
+            _speechSynthesizer.Value.SpeakAsyncCancelAll();
         }
 
         public void Dispose()

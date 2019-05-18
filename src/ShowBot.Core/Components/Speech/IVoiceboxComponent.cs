@@ -3,5 +3,6 @@
     public interface IVoiceBoxComponent
     {
         void Say(string input);
+        void Stop();
     }
 }
