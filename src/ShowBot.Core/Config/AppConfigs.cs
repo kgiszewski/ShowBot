@@ -8,6 +8,7 @@ namespace ShowBot.Core.Config
         public static class SpeechComponent
         {
             public static bool SendOutputToFile = Convert.ToBoolean(ConfigurationManager.AppSettings["SpeechComponent:SendToFile"] ?? "false");
+            public static bool UseMaleVoice = Convert.ToBoolean(ConfigurationManager.AppSettings["SpeechComponent:UseMaleVoice"] ?? "false");
 
             public static class ErrorResponses
             {

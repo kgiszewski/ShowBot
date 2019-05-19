@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Speech.Synthesis;
+using ShowBot.Core.Config;
 
 namespace ShowBot.Core.Components.Speech
 {
@@ -7,11 +8,16 @@ namespace ShowBot.Core.Components.Speech
     {
         private readonly Lazy<SpeechSynthesizer> _speechSynthesizer;
 
+        private const string FemaleVoice = "Microsoft Zira Desktop";
+        private const string MaleVoice = "Microsoft David Desktop";
+
         public SpeechSynthesizerVoiceBoxComponent(
             Lazy<SpeechSynthesizer> speechSynthesizer    
         )
         {
             _speechSynthesizer = speechSynthesizer;
+
+            _speechSynthesizer.Value.SelectVoice(AppConfigs.SpeechComponent.UseMaleVoice ? MaleVoice : FemaleVoice);
         }
 
         public void Say(string input)
