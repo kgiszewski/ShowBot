@@ -26,7 +26,7 @@ namespace ShowBot.ConsoleApp
             //register some console stuffs to see what is going on internally
             foreach (var skill in skills)
             {
-                Console.WriteLine($"{skill.GetType().Name} {skill.InvocationPhrase}");
+                Console.WriteLine($"{skill.GetType().Name} '{skill.InvocationPhrase}'");
 
                 skill.OnSkillExecuting += (sender, e) =>
                 {
@@ -51,9 +51,11 @@ namespace ShowBot.ConsoleApp
                 switch (selection.KeyChar)
                 {
                     case 'c':
+                        //TODO: consider making this a skill
                         robot.StopTalking();
                         break;
                     case 's':
+                        //TODO: consider removing this since we have the voice search now
                         robot.LookupInformation(_getInput("Enter search term:"));
                         break;
                     case 't':
@@ -64,6 +66,7 @@ namespace ShowBot.ConsoleApp
                         robot.ListenForCommand();
                         break;
                     case 'g':
+                        //TODO: make this a skill
                         robot.Greet(_getInput("Who are we meeting?"));
                         break;
                     case 'q':
