@@ -2,6 +2,8 @@
 
 The official artificial intelligence bot for the [Bob & Kevin Show](https://bobandkevin.show/).
 
+![Selfie](https://github.com/kgiszewski/ShowBot/blob/master/assets/showbot.jpg)
+
 # Why?
 
 We needed an intern. No humans applied so we built one.
