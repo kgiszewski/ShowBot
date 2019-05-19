@@ -1,7 +1,6 @@
 ﻿using System;
 using ShowBot.Core.Components.Robot;
 using ShowBot.Core.Dependencies;
-using ShowBot.Core.Skills.Wikipedia.Models;
 using Unity;
 
 namespace ShowBot.ConsoleApp
@@ -22,6 +21,8 @@ namespace ShowBot.ConsoleApp
 
             do
             {
+                Console.WriteLine($"What shall I do?");
+
                 var selection = Console.ReadKey(true);
 
                 switch (selection.KeyChar)

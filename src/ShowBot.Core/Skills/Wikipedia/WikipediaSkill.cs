@@ -48,6 +48,36 @@ namespace ShowBot.Core.Skills.Wikipedia
                             {
                                 result.TextToRead = paragraph.InnerText;
 
+                                if (result.TextToRead.ToLower().Contains("may refer to"))
+                                {
+                                    var headlines = htmlDocument.DocumentNode
+                                        .SelectNodes("//h2/span")
+                                        .Where(x => x.InnerText.ToLower() != "see also" && x.HasClass("mw-headline"))
+                                        .ToList();
+
+                                    var counter = 0;
+
+                                    foreach (var headline in headlines)
+                                    {
+                                        //if last
+                                        if (counter == headlines.Count - 1)
+                                        {
+                                            result.TextToRead += $"and {headline.InnerText}.";
+                                        }
+                                        //second last
+                                        else if (counter == headlines.Count - 2)
+                                        {
+                                            result.TextToRead += $"{headline.InnerText} ";
+                                        }
+                                        else
+                                        {
+                                            result.TextToRead += $"{headline.InnerText}, ";
+                                        }
+
+                                        counter++;
+                                    }
+                                }
+
                                 break;
                             }
                         }
