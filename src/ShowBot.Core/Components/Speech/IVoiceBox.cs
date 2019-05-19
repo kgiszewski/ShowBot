@@ -1,6 +1,6 @@
 ﻿namespace ShowBot.Core.Components.Speech
 {
-    public interface IVoiceBoxComponent
+    public interface IVoiceBox
     {
         void Say(string input);
         void Stop();

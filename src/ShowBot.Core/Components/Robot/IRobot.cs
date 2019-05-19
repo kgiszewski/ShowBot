@@ -5,6 +5,7 @@
         void Greet(string name);
         void Say(string input);
         void StopTalking();
-        string LookupInformation(string input);
+        void LookupInformation(string input);
+        void ListenForCommand();
     }
 }

@@ -2,5 +2,6 @@
 {
     public interface ISkillInput
     {
+        string Keyword { get; set; }
     }
 }

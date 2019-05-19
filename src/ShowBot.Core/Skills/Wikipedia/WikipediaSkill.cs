@@ -1,32 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using HtmlAgilityPack;
-using ShowBot.Core.Components.Robot;
 using ShowBot.Core.Config;
-using ShowBot.Core.Skills.Wikipedia.Models;
+using ShowBot.Core.Skills.Events;
 
 namespace ShowBot.Core.Skills.Wikipedia
 {
-    public class WikipediaSkill : ISkill<WikipediaSearchQuery, WikipediaSearchResult>
+    public class WikipediaSkill : ISkill<ISkillInput>
     {
         private readonly Lazy<HttpClient> _httpClient;
-        private readonly Lazy<IRobot> _robot;
 
         public WikipediaSkill(
-            Lazy<HttpClient> httpClient,
-            Lazy<IRobot> robot
+            Lazy<HttpClient> httpClient
         )
         {
             _httpClient = httpClient;
-            _robot = robot;
         }
 
-        public WikipediaSearchResult Execute(WikipediaSearchQuery query)
-        {
-            var result = new WikipediaSearchResult();
+        public string InvocationPhrase => "search wikipedia for";
 
-            var searchResult = _httpClient.Value.GetAsync($"https://en.wikipedia.org/wiki/{query.Keyword}").Result;
+        public void Execute(ISkillInput input)
+        {
+            input.Keyword = input.Keyword.Replace(" ", "_");
+
+            OnSkillExecuting?.Invoke(this, new SkillInvokeEventArgs
+            {
+                Name = nameof(WikipediaSkill),
+                Keyword = input.Keyword
+            });
+
+            var result = string.Empty;
+
+            var searchResult = _httpClient.Value.GetAsync($"https://en.wikipedia.org/wiki/{input.Keyword}").Result;
 
             if (searchResult.IsSuccessStatusCode)
             {
@@ -46,9 +53,9 @@ namespace ShowBot.Core.Skills.Wikipedia
 
                             if (!string.IsNullOrEmpty(text))
                             {
-                                result.TextToRead = paragraph.InnerText;
+                                result += paragraph.InnerText;
 
-                                if (result.TextToRead.ToLower().Contains("may refer to"))
+                                if (result.ToLower().Contains("may refer to"))
                                 {
                                     var headlines = htmlDocument.DocumentNode
                                         .SelectNodes("//h2/span")
@@ -62,44 +69,48 @@ namespace ShowBot.Core.Skills.Wikipedia
                                         //if last
                                         if (counter == headlines.Count - 1)
                                         {
-                                            result.TextToRead += $"and {headline.InnerText}.";
+                                            result += $"and {headline.InnerText}.";
                                         }
                                         //second last
                                         else if (counter == headlines.Count - 2)
                                         {
-                                            result.TextToRead += $"{headline.InnerText} ";
+                                            result += $"{headline.InnerText} ";
                                         }
                                         else
                                         {
-                                            result.TextToRead += $"{headline.InnerText}, ";
+                                            result += $"{headline.InnerText}, ";
                                         }
 
                                         counter++;
                                     }
                                 }
-
-                                break;
                             }
                         }
                     }
                     else
                     {
-                        result.TextToRead = "Sorry, seems there was nothing there to look at.";
+                        result = "Sorry, seems there was nothing there to look at.";
                     }
                 }
                 else
                 {
-                    result.TextToRead = "Sorry, seems there was nothing there to look at.";
+                    result = "Sorry, seems there was nothing there to look at.";
                 }
             }
             else
             {
-                result.TextToRead = AppConfigs.SpeechComponent.ErrorResponses.SorryCannotDoThat;
+                result = AppConfigs.SpeechComponent.ErrorResponses.SorryCannotDoThat;
             }
 
-            _robot.Value.Say(result.TextToRead);
-
-            return result;
+            OnSkillExecuted?.Invoke(this, new SkillInvokeEventArgs
+            {
+                Name = nameof(WikipediaSkill),
+                Keyword = input.Keyword,
+                TextToRead = HtmlEntity.DeEntitize(result)
+            });
         }
+
+        public event SkillExecutingHandler OnSkillExecuting;
+        public event SkillExecutedHandler OnSkillExecuted;
     }
 }

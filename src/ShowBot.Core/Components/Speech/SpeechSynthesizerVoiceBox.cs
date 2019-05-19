@@ -4,14 +4,14 @@ using ShowBot.Core.Config;
 
 namespace ShowBot.Core.Components.Speech
 {
-    public class SpeechSynthesizerVoiceBoxComponent : IVoiceBoxComponent, IDisposable
+    public class SpeechSynthesizerVoiceBox : IVoiceBox, IDisposable
     {
         private readonly Lazy<SpeechSynthesizer> _speechSynthesizer;
 
         private const string FemaleVoice = "Microsoft Zira Desktop";
         private const string MaleVoice = "Microsoft David Desktop";
 
-        public SpeechSynthesizerVoiceBoxComponent(
+        public SpeechSynthesizerVoiceBox(
             Lazy<SpeechSynthesizer> speechSynthesizer    
         )
         {

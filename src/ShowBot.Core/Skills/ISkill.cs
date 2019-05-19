@@ -1,8 +1,16 @@
-﻿namespace ShowBot.Core.Skills
+﻿using ShowBot.Core.Skills.Events;
+
+namespace ShowBot.Core.Skills
 {
-    public interface ISkill<in TInput, out TResult> where TInput : ISkillInput where TResult : ISkillResult
+    public delegate void SkillExecutingHandler(object sender, SkillInvokeEventArgs e);
+    public delegate void SkillExecutedHandler(object sender, SkillInvokeEventArgs e);
+
+    public interface ISkill<in TInput> where TInput : ISkillInput
 
     {
-        TResult Execute(TInput input);
+        string InvocationPhrase { get; }
+        void Execute(TInput input);
+        event SkillExecutingHandler OnSkillExecuting;
+        event SkillExecutedHandler OnSkillExecuted;
     }
 }

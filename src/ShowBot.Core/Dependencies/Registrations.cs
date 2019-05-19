@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Speech.Recognition;
 using System.Speech.Synthesis;
 using ShowBot.Core.Components.Robot;
 using ShowBot.Core.Components.Speech;
+using ShowBot.Core.Components.VoiceRecognition;
 using ShowBot.Core.Config;
 using ShowBot.Core.Skills;
 using ShowBot.Core.Skills.Wikipedia;
-using ShowBot.Core.Skills.Wikipedia.Models;
 using Unity;
 using Unity.Lifetime;
 
@@ -38,10 +41,44 @@ namespace ShowBot.Core.Dependencies
             }, new HierarchicalLifetimeManager());
 
             container.RegisterType<SpeechSynthesizer>(new HierarchicalLifetimeManager());
-            container.RegisterType<IVoiceBoxComponent, SpeechSynthesizerVoiceBoxComponent>(new HierarchicalLifetimeManager());
+            container.RegisterType<IVoiceBox, SpeechSynthesizerVoiceBox>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IRobot, Components.Robot.ShowBot>(new HierarchicalLifetimeManager());
-            container.RegisterType<ISkill<WikipediaSearchQuery, WikipediaSearchResult>, WikipediaSkill>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISkill<ISkillInput>, WikipediaSkill>(nameof(WikipediaSkill), new HierarchicalLifetimeManager());
+
+            container.RegisterFactory(typeof(SpeechRecognitionEngine), x => 
+            {
+                var engine = new SpeechRecognitionEngine();
+
+                foreach (var config in SpeechRecognitionEngine.InstalledRecognizers())
+                {
+                    if (config.Culture.ToString() == "en-US")
+                    {
+                        engine = new SpeechRecognitionEngine(config);
+                    }
+                }
+
+                engine.SetInputToDefaultAudioDevice();
+                engine.EndSilenceTimeout = TimeSpan.FromSeconds(2);
+
+                var invocationPhrases = new List<string>();
+
+                var skills = x.Resolve<IEnumerable<ISkill<ISkillInput>>>();
+
+                invocationPhrases.AddRange(skills.Select(y => y.InvocationPhrase));
+
+                var grammarBuilder = new GrammarBuilder(new Choices(invocationPhrases.ToArray()));
+
+                grammarBuilder.AppendDictation("grammar:dictation");
+
+                var grammar = new Grammar(grammarBuilder);
+
+                engine.LoadGrammar(grammar);
+
+                return engine;
+            });
+
+            container.RegisterType<IVoiceCommandListener, VoiceCommandListener>(new HierarchicalLifetimeManager());
         }
     }
 }

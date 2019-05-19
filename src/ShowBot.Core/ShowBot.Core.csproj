@@ -57,16 +57,17 @@
   <ItemGroup>
     <Compile Include="Components\Robot\IRobot.cs" />
     <Compile Include="Components\Robot\ShowBot.cs" />
-    <Compile Include="Components\Speech\IVoiceBoxComponent.cs" />
-    <Compile Include="Components\Speech\SpeechSynthesizerVoiceBoxComponent.cs" />
+    <Compile Include="Components\Speech\IVoiceBox.cs" />
+    <Compile Include="Components\Speech\SpeechSynthesizerVoiceBox.cs" />
+    <Compile Include="Components\VoiceRecognition\IVoiceCommandListener.cs" />
+    <Compile Include="Components\VoiceRecognition\VoiceCommandListener.cs" />
     <Compile Include="Config\AppConfigs.cs" />
     <Compile Include="Dependencies\Registrations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\Events\SkillInvokeEventArgs.cs" />
     <Compile Include="Skills\ISkill.cs" />
     <Compile Include="Skills\ISkillInput.cs" />
-    <Compile Include="Skills\ISkillResult.cs" />
-    <Compile Include="Skills\Wikipedia\Models\WikipediaSearchQuery.cs" />
-    <Compile Include="Skills\Wikipedia\Models\WikipediaSearchResult.cs" />
+    <Compile Include="Skills\Models\GenericSkillInput.cs" />
     <Compile Include="Skills\Wikipedia\WikipediaSkill.cs" />
   </ItemGroup>
   <ItemGroup>
