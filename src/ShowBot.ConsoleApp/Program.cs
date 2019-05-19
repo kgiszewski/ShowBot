@@ -26,20 +26,18 @@ namespace ShowBot.ConsoleApp
 
                 switch (selection.KeyChar)
                 {
-                    case 'i':
-                        robot.VoiceBox.Value.Say("Hello! I'm the official Bob & Kevin show intern. It's nice to meet you.");
-                        break;
                     case 'c':
-                        robot.VoiceBox.Value.Stop();
+                        robot.StopTalking();
                         break;
                     case 's':
-                        var result = robot.WikipediaSkill.Value.Execute(new WikipediaSearchQuery
-                        {
-                            Keyword = _getInput()
-                        });
-
-                        Console.WriteLine(result.TextToRead);
-
+                        var result = robot.LookupInformation(_getInput("Enter search term:"));
+                        Console.WriteLine(result);
+                        break;
+                    case 't':
+                        robot.Say(_getInput("What shall I say?"));
+                        break;
+                    case 'g':
+                        robot.Greet(_getInput("Who are we meeting?"));
                         break;
                     case 'q':
                         Environment.Exit(0);
@@ -51,9 +49,9 @@ namespace ShowBot.ConsoleApp
             } while (true);
         }
 
-        private static string _getInput()
+        private static string _getInput(string prompt)
         {
-            Console.WriteLine("Please enter your input: ");
+            Console.WriteLine($"{prompt} ");
 
             return Console.ReadLine();
         }
@@ -63,8 +61,9 @@ namespace ShowBot.ConsoleApp
             Console.ForegroundColor = ConsoleColor.Green;
 
             Console.WriteLine("====================");
-            Console.WriteLine("i - Introduce yourself");
+            Console.WriteLine("g - Greet someone");
             Console.WriteLine("s - Search Wikipedia");
+            Console.WriteLine("t - Say something");
             Console.WriteLine("c - Cancel Speech");
             Console.WriteLine("q - Quit");
             Console.WriteLine("====================");

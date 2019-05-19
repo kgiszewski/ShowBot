@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Speech.Synthesis;
 using ShowBot.Core.Components.Robot;
@@ -22,7 +21,7 @@ namespace ShowBot.Core.Dependencies
                 var synth = new SpeechSynthesizer();
 
                 synth.SetOutputToDefaultAudioDevice();
-
+                
                 if (AppConfigs.SpeechComponent.SendOutputToFile)
                 {
                     var path = $"{AppDomain.CurrentDomain.BaseDirectory}\\test.wav";

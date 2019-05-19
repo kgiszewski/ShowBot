@@ -67,7 +67,7 @@ namespace ShowBot.Core.Skills.Wikipedia
                 result.TextToRead = AppConfigs.SpeechComponent.ErrorResponses.SorryCannotDoThat;
             }
 
-            _robot.Value.VoiceBox.Value.Say(result.TextToRead);
+            _robot.Value.Say(result.TextToRead);
 
             return result;
         }
