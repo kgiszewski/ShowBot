@@ -4,6 +4,10 @@ The official artificial intelligence bot for the [Bob & Kevin Show](https://boba
 
 ![Selfie](https://github.com/kgiszewski/ShowBot/blob/master/assets/showbot.jpg)
 
+# Video Demo
+
+https://www.youtube.com/watch?v=M2A2I-AoGWU
+
 # Why?
 
 We needed an intern. No humans applied so we built one.
