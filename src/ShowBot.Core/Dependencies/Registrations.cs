@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Speech.Recognition;
@@ -23,13 +24,13 @@ namespace ShowBot.Core.Dependencies
             {
                 var synth = new SpeechSynthesizer();
 
-                synth.SetOutputToDefaultAudioDevice();
-                
                 if (AppConfigs.SpeechComponent.SendOutputToFile)
                 {
-                    var path = $"{AppDomain.CurrentDomain.BaseDirectory}\\test.wav";
-
-                    synth.SetOutputToWaveFile(path);
+                    synth.SetOutputToWaveFile(AppConfigs.SpeechComponent.OutputFilePath);
+                }
+                else
+                {
+                    synth.SetOutputToDefaultAudioDevice();
                 }
 
                 return synth;
@@ -40,7 +41,6 @@ namespace ShowBot.Core.Dependencies
                 return new HttpClient();
             }, new HierarchicalLifetimeManager());
 
-            container.RegisterType<SpeechSynthesizer>(new HierarchicalLifetimeManager());
             container.RegisterType<IVoiceBox, SpeechSynthesizerVoiceBox>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IRobot, Components.Robot.ShowBot>(new HierarchicalLifetimeManager());
@@ -58,7 +58,9 @@ namespace ShowBot.Core.Dependencies
                     }
                 }
 
+
                 engine.SetInputToDefaultAudioDevice();
+
                 engine.EndSilenceTimeout = TimeSpan.FromSeconds(2);
 
                 var invocationPhrases = new List<string>();
