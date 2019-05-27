@@ -54,6 +54,45 @@ That file is in the following format (keyword: catchphrase):
 }
 ```
 
+## ReadFromFile Skill
+ShowBot can utter some canned responses from files as well:
+
+1) run the intern
+2) push `r`
+3) make a selection
+
+Alternatively you could:
+
+1) run the intern
+2) push `l`
+3) utter `read from file <keyword>` where `keyword` is one of your defined words as shown below.
+
+ShowBot learns about what to read by reading in a `json` file. Visit the `ShowBot.ConsoleApp.exe.config` file app setting to point to a local file.
+
+That file is in the following format (keyword: file path):
+
+```
+{
+    "intro": "c:\\dev\\gettysburg.txt"
+}
+```
+
+> Be sure to use two `\` in the file path for each slash.
+
+Then in your `gettysburg.txt`, it can be just plain text:
+
+```
+Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.
+
+Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.
+
+But, in a larger sense, we can not dedicate -- we can not consecrate -- we can not hallow -- this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us -- that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion -- that we here highly resolve that these dead shall not have died in vain -- that this nation, under God, shall have a new birth of freedom -- and that government of the people, by the people, for the people, shall not perish from the earth.
+
+Abraham Lincoln
+November 19, 1863
+
+```
+
 # Can it do more?
 
 Over time, we'll add more skills and human-like features. Please send a PR or simply open up suggestions as issues.
