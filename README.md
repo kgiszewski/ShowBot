@@ -30,9 +30,15 @@ ShowBot can utter some canned responses:
 2) push `p`
 3) make a selection
 
+Alternatively you could:
+
+1) run the intern
+2) push `l`
+3) utter `say catchphrase <keyword>` where `keyword` is one of your defined words as shown below.
+
 ShowBot learns the catchphrases by reading in a `json` file. Visit the `ShowBot.ConsoleApp.exe.config` file app setting to point to a local file.
 
-That file is in the following format:
+That file is in the following format (keyword: catchphrase):
 
 ```
 {
